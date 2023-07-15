@@ -145,7 +145,7 @@ public class categoriaController {
 
     //Recuperar todas las categorias
     @CrossOrigin
-    @GetMapping("/get_categories")
+    @GetMapping("/get_category")
     public ResponseEntity<?> getCategorias() {
 
         // Estructuras
@@ -163,7 +163,7 @@ public class categoriaController {
 
     //Crear una nueva categoria
     @CrossOrigin
-    @PostMapping("/create_categories")
+    @PostMapping("/create_category")
     public ResponseEntity<?> createCategoria(@RequestBody ZTM_CATEGORIA ls_nueva_categoria) {
 
         // Estructuras
@@ -181,7 +181,7 @@ public class categoriaController {
 
     //Editar una categoria
     @CrossOrigin
-    @PostMapping("/update_categories")
+    @PostMapping("/update_category")
     public ResponseEntity<?> updateCategoria(@RequestParam("idcategoria") int lv_categoria) {
 
         // Estructuras
@@ -199,7 +199,7 @@ public class categoriaController {
 
     //Eliminar una categoria
     @CrossOrigin
-    @PostMapping("/delete_categories")
+    @PostMapping("/delete_category")
     public ResponseEntity<?> deleteCategoria(@RequestParam("idcategoria") int lv_categoria) {
 
         // Estructuras
