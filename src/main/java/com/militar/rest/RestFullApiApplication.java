@@ -21,7 +21,7 @@ public class RestFullApiApplication {
 		http
 			.authorizeHttpRequests(authorize -> authorize        
 			.requestMatchers("/*").permitAll()                           
-				.requestMatchers(HttpMethod.GET, "/getCategories/*", "/usuarios", "/apodo/*", "/perfil/*").permitAll()  
+				.requestMatchers(HttpMethod.GET, "/get_category/*", "/usuarios", "/apodo/*", "/perfil/*").permitAll()  
 				.anyRequest().denyAll()                                   
 			);
 		http.httpBasic();

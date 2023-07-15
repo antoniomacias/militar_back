@@ -171,7 +171,7 @@ public class categoriaController {
 
         //Buscamos categoria
         ls_categoria = li_categoria_rep.findByNombre(ls_nueva_categoria.getNombre());
-        if (!ObjectUtils.isEmpty(ls_categoria)) {
+        if (ObjectUtils.isEmpty(ls_categoria)) {
             li_categoria_rep.save(ls_nueva_categoria);
             return ResponseEntity.ok().build();
         }else{
