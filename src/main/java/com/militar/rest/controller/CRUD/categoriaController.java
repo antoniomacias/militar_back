@@ -170,16 +170,21 @@ public class categoriaController {
     public ResponseEntity<?> createCategory(@RequestBody ZTM_CATEGORIA ls_nueva_categoria) {
 
         // Estructuras
+        List<ZTM_CATEGORIA> lt_categoria = new ArrayList<>();
         ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
 
         //Buscamos categoria
         ls_categoria = li_categoria_rep.findByNombre(ls_nueva_categoria.getNombre());
         if (ObjectUtils.isEmpty(ls_categoria)) {
             li_categoria_rep.save(ls_nueva_categoria);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El nombre de la categoria ya existe");
-        }
+            
+            //Buscamos categorias
+            lt_categoria = li_categoria_rep.findAll();
+
+            if (!ObjectUtils.isEmpty(lt_categoria)) {
+                return ResponseEntity.ok(lt_categoria);
+            }else{ return ResponseEntity.badRequest().build();}
+        }else{return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El nombre de la categoria ya existe");}
     }
 
     //Editar una categoria
