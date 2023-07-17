@@ -32,8 +32,6 @@ public class categoriaController {
     
 	@Autowired
 	private CategoriaRepository li_categoria_rep;
-	@Autowired
-	private SubcategoriaRepository li_subcategoria_rep;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,5 +248,4 @@ public class categoriaController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
 }
