@@ -22,6 +22,7 @@ import com.militar.rest.modelo.ZTM_SUBCATEGORIA;
 import com.militar.rest.modelo.ZTT_USUARIO;
 import com.militar.rest.modelo.POJO.ZTP_CATEGORIA;
 import com.militar.rest.modelo.POJO.ZTP_SUBCATEGORIA;
+import com.militar.rest.modelo.TIPADOS.ZTP_INT;
 import com.militar.rest.repository.CategoriaRepository;
 import com.militar.rest.repository.SubcategoriaRepository;
 
@@ -229,16 +230,16 @@ public class categoriaController {
     //Eliminar una categoria
     @CrossOrigin
     @PostMapping("/delete_category")
-    public ResponseEntity<?> deleteCategory(@RequestParam("idcategoria") int lv_categoria) {
+    public ResponseEntity<?> deleteCategory(@RequestBody ZTP_INT ls_valor) {
 
         // Estructuras
         List<ZTM_CATEGORIA> lt_categoria = new ArrayList<>();
         ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
 
         //Buscamos categoria
-        ls_categoria = li_categoria_rep.findById(lv_categoria).get();
+        ls_categoria = li_categoria_rep.findById(ls_valor.getValor1()).get();
         if (!ObjectUtils.isEmpty(ls_categoria)) {
-            li_categoria_rep.deleteById(lv_categoria);
+            li_categoria_rep.deleteById(ls_valor.getValor1());
             //Buscamos categorias
             lt_categoria = li_categoria_rep.findAll();
 
