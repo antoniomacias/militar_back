@@ -2,6 +2,7 @@ package com.militar.rest.controller.CRUD;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.militar.rest.modelo.ZTM_CATEGORIA;
 import com.militar.rest.modelo.ZTM_SUBCATEGORIA;
+import com.militar.rest.modelo.ZTT_USUARIO;
 import com.militar.rest.modelo.POJO.ZTP_CATEGORIA;
 import com.militar.rest.modelo.POJO.ZTP_SUBCATEGORIA;
 import com.militar.rest.repository.CategoriaRepository;
@@ -34,7 +36,7 @@ public class categoriaController {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
+/* 
     // Recuperamos categorias y subcategorias
     @CrossOrigin
     @GetMapping("/getCategories")
@@ -104,49 +106,13 @@ public class categoriaController {
             }else{return ResponseEntity.badRequest().build();}
         }else{return ResponseEntity.badRequest().build();}
     }
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //Recuperar una categoria por ID
-    @CrossOrigin
-    @PostMapping("/get_categoria_id")
-    public ResponseEntity<?> getCategoriaId(@RequestParam("idcategoria") int lv_categoria) {
-
-        // Estructuras
-        ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
-
-        //Buscamos categoria
-        ls_categoria = li_categoria_rep.findById(lv_categoria).get();
-
-        if (!ObjectUtils.isEmpty(ls_categoria)) {
-            return ResponseEntity.ok(ls_categoria);
-        }else{
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    //Recuperar una categoria por Nombre
-    @CrossOrigin
-    @PostMapping("/get_categoria_nombre")
-    public ResponseEntity<?> getCategoriaNombre(@RequestParam("nombre_categoria") String lv_nombre_categoria) {
-
-        // Estructuras
-        ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
-
-        //Buscamos categoria
-        ls_categoria = li_categoria_rep.findByNombre(lv_nombre_categoria);
-
-        if (!ObjectUtils.isEmpty(ls_categoria)) {
-            return ResponseEntity.ok(ls_categoria);
-        }else{
-            return ResponseEntity.badRequest().build();
-        }
-    }
 
     //Recuperar todas las categorias
     @CrossOrigin
-    @GetMapping("/get_category")
-    public ResponseEntity<?> getCategorias() {
+    @GetMapping("/get_categories")
+    public ResponseEntity<?> getCategories() {
 
         // Estructuras
         List<ZTM_CATEGORIA> lt_categoria = new ArrayList<>();
@@ -161,10 +127,47 @@ public class categoriaController {
         }
     }
 
+    //Recuperar una categoria por ID
+    @CrossOrigin
+    @PostMapping("/get_category")
+    public ResponseEntity<?> getCategory(@RequestParam("idcategory") int lv_categoria) {
+
+        // Estructuras
+        ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
+
+        //Buscamos categoria
+        ls_categoria = li_categoria_rep.findById(lv_categoria).get();
+
+        if (!ObjectUtils.isEmpty(ls_categoria)) {
+            return ResponseEntity.ok(ls_categoria);
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    //Recuperar una categoria por NOMBRE
+    @CrossOrigin
+    @PostMapping("/get_category_name")
+    public ResponseEntity<?> getCategoryName(@RequestParam("namecategory") String lv_nombre_categoria) {
+
+        // Estructuras
+        ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
+
+        //Buscamos categoria
+        ls_categoria = li_categoria_rep.findByNombre(lv_nombre_categoria);
+
+        if (!ObjectUtils.isEmpty(ls_categoria)) {
+            return ResponseEntity.ok(ls_categoria);
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
     //Crear una nueva categoria
     @CrossOrigin
     @PostMapping("/create_category")
-    public ResponseEntity<?> createCategoria(@RequestBody ZTM_CATEGORIA ls_nueva_categoria) {
+    public ResponseEntity<?> createCategory(@RequestBody ZTM_CATEGORIA ls_nueva_categoria) {
 
         // Estructuras
         ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
@@ -181,26 +184,44 @@ public class categoriaController {
 
     //Editar una categoria
     @CrossOrigin
-    @PostMapping("/update_category")
-    public ResponseEntity<?> updateCategoria(@RequestParam("idcategoria") int lv_categoria) {
+	@PostMapping("/update_category")
+    public ResponseEntity<?> updateCategory(@RequestBody ZTM_CATEGORIA ls_categoria) throws IllegalArgumentException, IllegalAccessException {
+		
 
-        // Estructuras
-        ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
+		// Buscar al usuario por su ID en la base de datos
+		ZTM_CATEGORIA ls_categoriaDB = li_categoria_rep.findById(ls_categoria.getIdcategoria()).get();
+		if (!ObjectUtils.isEmpty(ls_categoriaDB)){
+			Class<?> usuarioClass = ls_categoria.getClass();
+			Field[] fields = usuarioClass.getDeclaredFields();
+			for (Field field : fields) {
 
-        //Buscamos categoria
-        ls_categoria = li_categoria_rep.findById(lv_categoria).get();
-        if (!ObjectUtils.isEmpty(ls_categoria)) {
-            li_categoria_rep.deleteById(lv_categoria);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.badRequest().build();
-        }
+				if (field.getName() == "iduser" ||  field.getName() == "correo" ||  field.getName() == "tipousuario" 
+				 ||  field.getName() == "verificado"  ||  field.getName() == "iban") {
+					//	Estos campos no serán editables.
+				}else{
+					field.setAccessible(true);
+					Object value = field.get(ls_categoria);
+					if (value != null && value != "") {
+						field.set(ls_categoriaDB, value);
+					}
+				}
+			}
+			
+			//	Actualizamos usuario
+			//li_usuario_rep.save(ls_usuarioDB);
+			
+            //return ResponseEntity.ok(ls_datos);
+		}else{
+			return ResponseEntity.notFound().build();
+		}
+        return null;
     }
+
 
     //Eliminar una categoria
     @CrossOrigin
     @PostMapping("/delete_category")
-    public ResponseEntity<?> deleteCategoria(@RequestParam("idcategoria") int lv_categoria) {
+    public ResponseEntity<?> deleteCategory(@RequestParam("idcategoria") int lv_categoria) {
 
         // Estructuras
         ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
