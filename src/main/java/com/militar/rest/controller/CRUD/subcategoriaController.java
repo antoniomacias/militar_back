@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.militar.rest.modelo.ZTM_CATEGORIA;
 import com.militar.rest.modelo.ZTM_SUBCATEGORIA;
 import com.militar.rest.modelo.POJO.ZTP_SUBCATEGORIA;
 import com.militar.rest.modelo.TIPADOS.ZTP_INT;
