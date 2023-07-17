@@ -192,6 +192,8 @@ public class categoriaController {
 	@PostMapping("/update_category")
     public ResponseEntity<?> updateCategory(@RequestBody ZTM_CATEGORIA ls_categoria) throws IllegalArgumentException, IllegalAccessException {
 		
+        // Estructuras
+        List<ZTM_CATEGORIA> lt_categoria = new ArrayList<>();
 
 		// Buscar al usuario por su ID en la base de datos
 		ZTM_CATEGORIA ls_categoriaDB = li_categoria_rep.findById(ls_categoria.getIdcategoria()).get();
@@ -200,8 +202,7 @@ public class categoriaController {
 			Field[] fields = usuarioClass.getDeclaredFields();
 			for (Field field : fields) {
 
-				if (field.getName() == "iduser" ||  field.getName() == "correo" ||  field.getName() == "tipousuario" 
-				 ||  field.getName() == "verificado"  ||  field.getName() == "iban") {
+				if (field.getName() == "idcategoria" ||  field.getName() == "usuario_creacion" ||  field.getName() == "fecha_creacion") {
 					//	Estos campos no serán editables.
 				}else{
 					field.setAccessible(true);
@@ -213,13 +214,15 @@ public class categoriaController {
 			}
 			
 			//	Actualizamos usuario
-			//li_usuario_rep.save(ls_usuarioDB);
+			li_categoria_rep.save(ls_categoriaDB);
 			
-            //return ResponseEntity.ok(ls_datos);
-		}else{
-			return ResponseEntity.notFound().build();
-		}
-        return null;
+            //Buscamos categorias
+            lt_categoria = li_categoria_rep.findAll();
+
+            if (!ObjectUtils.isEmpty(lt_categoria)) {
+                return ResponseEntity.ok(lt_categoria);
+            }else{ return ResponseEntity.badRequest().build();}
+		}else{return ResponseEntity.notFound().build();}
     }
 
 
@@ -229,13 +232,19 @@ public class categoriaController {
     public ResponseEntity<?> deleteCategory(@RequestParam("idcategoria") int lv_categoria) {
 
         // Estructuras
+        List<ZTM_CATEGORIA> lt_categoria = new ArrayList<>();
         ZTM_CATEGORIA ls_categoria = new ZTM_CATEGORIA();
 
         //Buscamos categoria
         ls_categoria = li_categoria_rep.findById(lv_categoria).get();
         if (!ObjectUtils.isEmpty(ls_categoria)) {
             li_categoria_rep.deleteById(lv_categoria);
-            return ResponseEntity.ok().build();
+            //Buscamos categorias
+            lt_categoria = li_categoria_rep.findAll();
+
+            if (!ObjectUtils.isEmpty(lt_categoria)) {
+                return ResponseEntity.ok(lt_categoria);
+            }else{ return ResponseEntity.badRequest().build();}
         }else{
             return ResponseEntity.badRequest().build();
         }
