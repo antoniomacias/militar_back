@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.militar.rest.modelo.ZTM_CATEGORIA;
 import com.militar.rest.modelo.ZTM_CURSO;
-import com.militar.rest.modelo.ZTM_SUBCATEGORIA;
-import com.militar.rest.modelo.POJO.ZTP_SUBCATEGORIA;
 import com.militar.rest.modelo.TIPADOS.ZTP_INT;
 import com.militar.rest.repository.CursoRepository;
-import com.militar.rest.repository.SubcategoriaRepository;
 
 @RestController
 public class cursoController {
@@ -73,7 +69,7 @@ public class cursoController {
         ZTM_CURSO ls_curso = new ZTM_CURSO();
 
         //Buscamos categoria
-        ls_curso = li_curso_rep.findByNombre(lv_nombre_course);
+        ls_curso = li_curso_rep.obtenerNombrecurso(lv_nombre_course);
 
         if (!ObjectUtils.isEmpty(ls_curso)) {
             return ResponseEntity.ok(ls_curso);
@@ -93,7 +89,7 @@ public class cursoController {
         ZTM_CURSO ls_curso = new ZTM_CURSO();
 
         //Buscamos curso
-        ls_curso = li_curso_rep.findByNombre(ls_nuevo_curso.getNombre_curso());
+        ls_curso = li_curso_rep.obtenerNombrecurso(ls_nuevo_curso.getNombre_curso());
         if (ObjectUtils.isEmpty(ls_curso)) {
             li_curso_rep.save(ls_curso);
             
