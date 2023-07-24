@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.militar.rest.modelo.ZTM_SUBCATEGORIA;
 import com.militar.rest.modelo.POJO.ZTP_SUBCATEGORIA;
 import com.militar.rest.modelo.TIPADOS.ZTP_INT;
 import com.militar.rest.repository.SubcategoriaRepository;
 
+@RestController
 public class subcategoriaController {
 
 	@Autowired

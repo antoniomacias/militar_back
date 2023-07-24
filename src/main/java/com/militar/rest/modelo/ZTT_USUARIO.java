@@ -1,6 +1,7 @@
 package com.militar.rest.modelo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,48 +15,61 @@ public class ZTT_USUARIO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idficha;
+	private int iduser;
 	private String correo;
 	private String contrasena;
 	private String nombre;
 	private String apellidos;
 	private String nombre_completo;
 	private String ano_nacimiento;
+	private int telefono;
+	private String direccion;
 	private String apodo;
 	private String foto;
+	private String genero;
 	private String fecha_creacion;
-	private String ultimo_acceso;
+	private Date ultimo_acceso;
 	private String discord;
 	
+
 	public ZTT_USUARIO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ZTT_USUARIO(int idficha, String correo, String contrasena, String nombre, String apellidos,
-			String nombre_completo, String ano_nacimiento, String apodo, String foto, String fecha_creacion,
-			String ultimo_acceso, String discord) {
-		this.idficha = idficha;
+	public ZTT_USUARIO(int iduser, String correo, String contrasena, String nombre, String apellidos,
+			String nombre_completo, String ano_nacimiento, int telefono, String direccion, String apodo, String foto,
+			String genero, String fecha_creacion, Date ultimo_acceso, String discord) {
+		this.iduser = iduser;
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.nombre_completo = nombre_completo;
 		this.ano_nacimiento = ano_nacimiento;
+		this.telefono = telefono;
+		this.direccion = direccion;
 		this.apodo = apodo;
 		this.foto = foto;
+		this.genero = genero;
 		this.fecha_creacion = fecha_creacion;
 		this.ultimo_acceso = ultimo_acceso;
 		this.discord = discord;
 	}
 
-
-
-	public int getIdficha() {
-		return idficha;
+	public int getTelefono() {
+		return telefono;
 	}
 
-	public void setIdficha(int idficha) {
-		this.idficha = idficha;
+	public void setTelefono(int telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public String getCorreo() {
@@ -130,11 +144,11 @@ public class ZTT_USUARIO {
 		this.fecha_creacion = fecha_creacion;
 	}
 
-	public String getUltimo_acceso() {
+	public Date getUltimo_acceso() {
 		return ultimo_acceso;
 	}
 
-	public void setUltimo_acceso(String ultimo_acceso) {
+	public void setUltimo_acceso(Date ultimo_acceso) {
 		this.ultimo_acceso = ultimo_acceso;
 	}
 
@@ -144,6 +158,23 @@ public class ZTT_USUARIO {
 
 	public void setDiscord(String discord) {
 		this.discord = discord;
+	}
+
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public int getIduser() {
+		return iduser;
+	}
+
+	public void setIduser(int iduser) {
+		this.iduser = iduser;
 	}
 
 	
